@@ -43,7 +43,7 @@ export default {
     .nav-link {
         font-family: 'Poppins', sans-serif;
         font-weight: 500;
-        font-size: 14px;
+        font-size: 16px;
         color: hsl(0, 0%, 75%);
     }
     .signup-btn {

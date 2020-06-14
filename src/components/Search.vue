@@ -7,22 +7,23 @@
                         <input type="text" class="form-control" v-model="url"  placeholder="Shorten a link here...">
                         <button type="button" @click="handleShorten" class="btn btn-primary">Shorten it!</button>
                     </div>
+                     <div class="error__div">
+                        <p class="error"><em>Please add a link</em></p>
+                    </div>
                 </div>
                     <div v-for="(link, key) in links" :key="key">
                         <div class="display__results">
                             <div class="real__link">
-                            <!-- <p>https://www.frontendmentor.io</p> -->
                                 <p>{{link.url}}</p>
                             </div>
                         <div class="shorten__link d-flex align-items-center">
-                            <!-- <p>https://rel.ink/4Ky66</p> -->
                             <p>{{link.hashid|relink}}</p>
                             <button type="button" class="btn btn-primary ml-3" @click="copy(link.hashid, $event)">Copy</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="content text-center">
+            <div class="container content text-center">
                 <h3>Advanced Statistics</h3>
                 <p class="mt-4">Track how your links are performing across web with <br> our advanced statistics dashboard.</p>
             </div>
@@ -52,6 +53,7 @@ export default {
     url: '',
     hashid: '',
     links: [],
+    validation: false,
     cardJson: [{
       title: 'Brand Recognition',
       subtitle: 'Boost your brand recognition with each click. Generic links doesn\'t mean a thing. Branded links help instil confidence in your content.',
@@ -70,7 +72,12 @@ export default {
       text: 'fully'
     }]
   }),
-  mounted: function () {
+  computed: {
+    validated () {
+      return this.Validation && !this.url
+    }
+  },
+  mounted () {
     if (localStorage.getItem('links')) {
       try {
         this.links = JSON.parse(localStorage.getItem('links'))
@@ -80,14 +87,14 @@ export default {
     }
   },
   watch: {
-    url: function (v) {
+    url (v) {
       if (this.hashid) {
         this.hashid = null
       }
     }
   },
   methods: {
-    copy: function (hashid, $event) {
+    copy (hashid, $event) {
       event.preventDefault()
       // copyTextToClipboard(this.$options.filters.relink(hashid))
     },
@@ -96,6 +103,7 @@ export default {
         const links = this.links
         links.push(resp.data)
         this.url = ''
+        this.validation = true
 
         this.hashid = resp.data.hashid
         this.links = Array.from(
@@ -103,6 +111,7 @@ export default {
           return links.find(l => l.hashid === hashid)
         }
         ).slice(0, 5)
+
         // LocalStorage
         localStorage.setItem('links', JSON.stringify(this.links))
       }).then(err => {
@@ -111,7 +120,7 @@ export default {
     }
   },
   filters: {
-    relink: function (hashid) {
+    relink (hashid) {
       return `https://rel.ink/${hashid}`
     }
   }
@@ -121,6 +130,16 @@ export default {
 <style scoped>
     body {
         font-family:'Poppins', sans-serif;
+    }
+    .error__div {
+        position: relative;
+        top: -45px;
+        left: 100px;
+    }
+    .error {
+        font-family:'Poppins', sans-serif;
+        font-size: 16px;
+        color: hsl(0, 87%, 67%);
     }
     .overlay {
         background-color: #eee;
@@ -276,19 +295,26 @@ export default {
            padding: 20px;
        }
        .search__layout {
-           height: 150px;
+           height: 180px;
        }
        .search__field input {
         width: 100% !important;
-        height: 45px;
+        height: 50px;
         padding: 10px;
     }
     .search__field button {
         width: 100%;
         margin-left: 0px;
-        margin-top: 20px;
+        margin-top: 40px;
         font-size: 17px;
-        padding: 10px 0px;
+        padding: 12px 0px;
+    }
+    .error__div {
+        top: -68%;
+        left: 20px;
+    }
+    .display__results {
+        flex-direction: column;
     }
    }
 </style>

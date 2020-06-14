@@ -1,3 +1,3 @@
-export const devServer = {
-  proxy: 'https://rel.ink'
-}
+// export const devServer = {
+//   proxy: 'https://rel.ink'
+// }
