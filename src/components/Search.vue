@@ -8,7 +8,7 @@
                         <button type="button" @click="handleShorten" class="btn btn-primary">Shorten it!</button>
                     </div>
                      <div class="error__div">
-                        <p class="error"><em>Please add a link</em></p>
+                        <p class="error"><em></em></p>
                     </div>
                 </div>
                     <div v-for="(link, key) in links" :key="key">
@@ -16,9 +16,12 @@
                             <div class="real__link">
                                 <p>{{link.url}}</p>
                             </div>
-                        <div class="shorten__link d-flex align-items-center">
+                        <div class="shorten__link">
                             <p>{{link.hashid|relink}}</p>
-                            <button type="button" class="btn btn-primary ml-3" @click="copy(link.hashid, $event)">Copy</button>
+                            <button type="button" class="btn btn-primary" @click="copy(link.hashid, $event)"
+                             v-clipboard:copy="message"
+                            v-clipboard:success="onCopy"
+                            v-clipboard:error="onError" :class="message=='Copied'?'add__copied':''">{{text}}</button>
                         </div>
                     </div>
                 </div>
@@ -53,7 +56,9 @@ export default {
     url: '',
     hashid: '',
     links: [],
-    validation: false,
+    error: '',
+    text: 'Copy',
+    message: 'Copied',
     cardJson: [{
       title: 'Brand Recognition',
       subtitle: 'Boost your brand recognition with each click. Generic links doesn\'t mean a thing. Branded links help instil confidence in your content.',
@@ -94,6 +99,12 @@ export default {
     }
   },
   methods: {
+    onCopy: function (e) {
+      this.text = this.message
+    },
+    onError: function (e) {
+      alert('Failed to copy texts')
+    },
     copy (hashid, $event) {
       event.preventDefault()
       // copyTextToClipboard(this.$options.filters.relink(hashid))
@@ -103,7 +114,6 @@ export default {
         const links = this.links
         links.push(resp.data)
         this.url = ''
-        this.validation = true
 
         this.hashid = resp.data.hashid
         this.links = Array.from(
@@ -130,6 +140,10 @@ export default {
 <style scoped>
     body {
         font-family:'Poppins', sans-serif;
+    }
+    .add__copied {
+        background-color: hsl(257, 27%, 26%);
+        color: #fff;
     }
     .error__div {
         position: relative;
@@ -212,11 +226,11 @@ export default {
         font-weight: 500;
         margin-block-end: 0em;
     }
-    /* .shorten__link {
+    .shorten__link {
         display: flex;
         align-items: center;
         justify-content: center;
-    } */
+    }
     .shorten__link p {
         color: hsl(180, 66%, 49%);
         font-size: 20px;
@@ -232,6 +246,7 @@ export default {
         transition: 0.5s;
         color: #fff !important;
         font-family:'Poppins', sans-serif;
+        margin-left: 16px;
     }
     .card__container {
         margin-top: 8rem;
@@ -315,6 +330,16 @@ export default {
     }
     .display__results {
         flex-direction: column;
+        line-height: 2.5;
+        padding: 14px;
+    }
+    .shorten__link {
+        flex-direction: column;
+    }
+    .shorten__link button {
+        width: 100%;
+        margin-left: 0px;
+        margin-top: 1rem;
     }
    }
 </style>

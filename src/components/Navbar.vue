@@ -66,4 +66,26 @@ export default {
     .navbar-light .navbar-toggler:focus {
         outline: 0;
     }
+
+    @media only screen and (max-width: 768px) {
+        .navbar-collapse {
+            color: #fff;
+            background-color: hsl(257, 27%, 26%);
+            border-radius: 10px;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            height: 400px;
+            /* line-height: 3; */
+            margin-top: 2rem;
+        }
+        .navbar-light .navbar-nav .nav-link, .navbar-light .navbar-nav .active>.nav-link {
+            color: #fff;
+            margin-top: 1.7rem;
+        }
+        .signup-btn {
+                width: 100%;
+                padding: 9px 20px;
+        }
+    }
 </style>
