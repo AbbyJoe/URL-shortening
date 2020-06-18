@@ -18,10 +18,8 @@
                             </div>
                         <div class="shorten__link">
                             <p>{{link.hashid|relink}}</p>
-                            <button type="button" class="btn btn-primary" @click="copy(link.hashid, $event)"
-                             v-clipboard:copy="message"
-                            v-clipboard:success="onCopy"
-                            v-clipboard:error="onError" :class="message=='Copied'?'add__copied':''">{{text}}</button>
+                            <button type="button" class="btn btn-primary add__copied" @click="copy(link.hashid, $event)"
+                            :class="message=='Copied'?'add__copied':''">{{text}}</button>
                         </div>
                     </div>
                 </div>
@@ -51,6 +49,7 @@
 
 <script>
 import Axios from 'axios'
+import copyTextToClipboard from 'copy-text-to-clipboard'
 export default {
   data: () => ({
     url: '',
@@ -99,15 +98,11 @@ export default {
     }
   },
   methods: {
-    onCopy: function (e) {
-      this.text = this.message
-    },
-    onError: function (e) {
-      alert('Failed to copy texts')
-    },
     copy (hashid, $event) {
       event.preventDefault()
-      // copyTextToClipboard(this.$options.filters.relink(hashid))
+      copyTextToClipboard(this.$options.filters.relink(hashid))
+      // document.querySelector('add__copied').className = 'add__copied'
+    //   this.text = this.message.push('Copied')
     },
     handleShorten () {
       Axios.post('https://rel.ink/api/links/', { url: this.url }).then(resp => {
@@ -124,7 +119,7 @@ export default {
 
         // LocalStorage
         localStorage.setItem('links', JSON.stringify(this.links))
-      }).then(err => {
+      }).catch(err => {
         console.log('oops fix this error', err)
       })
     }
