@@ -102,7 +102,8 @@ export default {
       event.preventDefault()
       copyTextToClipboard(this.$options.filters.relink(hashid))
       // document.querySelector('add__copied').className = 'add__copied'
-    //   this.text = this.message.push('Copied')
+      //   this.text = this.message.push('Copied')
+      console.log('message')
     },
     handleShorten () {
       Axios.post('https://rel.ink/api/links/', { url: this.url }).then(resp => {
