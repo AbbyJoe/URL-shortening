@@ -30,6 +30,7 @@
             </div>
             <div class="container card__container">
                      <div class="line"></div>
+                     <div class="mobile__line"></div>
                 <div class="row">
                     <div class="col-md-4" v-for="(object, key) in cardJson" :key="key">
                         <div class="card__info" :class="[object.text=='detailed'?'card__margin__1':'',
@@ -299,6 +300,14 @@ export default {
            bottom: 40%;
            left: 50%; */
        }
+        .mobile__line {
+            position: absolute;
+            left: 46%;
+            top: 450%;
+            height: 450px;
+            width: 8px;
+            background-color: hsl(180, 66%, 49%);
+        }
        .search__field {
            display: flex;
            flex-direction: column;
@@ -306,17 +315,19 @@ export default {
            padding: 20px;
        }
        .search__layout {
-           height: 180px;
+           height: 100%;
+           background-image: url('../assets/images/bg-shorten-mobile.svg');
+           background-size: cover;
        }
        .search__field input {
         width: 100% !important;
-        height: 50px;
+        height: 60px;
         padding: 10px;
     }
     .search__field button {
         width: 100%;
         margin-left: 0px;
-        margin-top: 40px;
+        margin-top: 30px;
         font-size: 17px;
         padding: 12px 0px;
     }
@@ -337,5 +348,11 @@ export default {
         margin-left: 0px;
         margin-top: 1rem;
     }
-   }
+    .card__margin__1 {
+        margin-top: 4rem;
+    }
+    .icon {
+        left: 80px;
+    }
+}
 </style>

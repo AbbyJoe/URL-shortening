@@ -132,6 +132,12 @@ export default {
         color:hsl(180, 66%, 49%)
     }
     @media only screen and (max-width: 768px) {
+        .footer__content {
+            background-image: url('../assets/images/bg-boost-mobile.svg');
+        }
+        .footer__content button {
+            padding: 10px 20px;
+        }
         .foot {
             width: 100%;
             /* display: flex; */
@@ -156,6 +162,9 @@ export default {
         }
         .link__icon a:last-child {
             padding-right: 0px;
+        }
+        .footer__content h3 {
+            font-size: 25px
         }
     }
 </style>
