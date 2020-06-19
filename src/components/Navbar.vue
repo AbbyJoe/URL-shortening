@@ -63,6 +63,9 @@ export default {
         color: rgba(0,0,0,.5);
         border: 0;
     }
+    .navbar-toggler {
+        margin-top: -6px;
+    }
     .navbar-light .navbar-toggler:focus {
         outline: 0;
     }

@@ -30,7 +30,7 @@
             </div>
             <div class="container card__container">
                      <div class="line"></div>
-                     <div class="mobile__line"></div>
+                     <!-- <div class="mobile__line"></div> -->
                 <div class="row">
                     <div class="col-md-4" v-for="(object, key) in cardJson" :key="key">
                         <div class="card__info" :class="[object.text=='detailed'?'card__margin__1':'',
@@ -292,6 +292,9 @@ export default {
     }
 
    @media only screen and (max-width: 768px) {
+       .content__info h5, .content__info p {
+           text-align: center;
+       }
        .line {
            display: none;
            /* position: relative;
@@ -352,7 +355,7 @@ export default {
         margin-top: 4rem;
     }
     .icon {
-        left: 80px;
+        left: 35%;
     }
 }
 </style>
