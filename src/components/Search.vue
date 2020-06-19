@@ -303,6 +303,9 @@ export default {
            bottom: 40%;
            left: 50%; */
        }
+       .real__link p {
+           text-align: center;
+       }
         .mobile__line {
             position: absolute;
             left: 46%;
