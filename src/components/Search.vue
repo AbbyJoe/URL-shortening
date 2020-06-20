@@ -4,11 +4,11 @@
             <div class="container">
                 <div class="search__layout">
                     <div class="search__field form-group">
-                        <input type="text" class="form-control" v-model="url"  placeholder="Shorten a link here...">
+                        <input type="text" class="form-control" :class="{input__error: error}" v-model="url"  placeholder="Shorten a link here...">
                         <button type="button" @click="handleShorten" class="btn btn-primary">Shorten it!</button>
                     </div>
                      <div class="error__div">
-                        <p class="error"><em></em></p>
+                        <p class="error"><em>{{error}}</em></p>
                     </div>
                 </div>
                     <div v-for="(link, key) in links" :key="key">
@@ -18,8 +18,8 @@
                             </div>
                         <div class="shorten__link">
                             <p>{{link.hashid|relink}}</p>
-                            <button type="button" class="btn btn-primary add__copied" @click="copy(link.hashid, $event)"
-                            :class="message=='Copied'?'add__copied':''">{{text}}</button>
+                            <button type="button" class="btn btn-primary" @click="copy(link.hashid, $event)"
+                            :class="{add__copied: isCopied}">{{text}}</button>
                         </div>
                     </div>
                 </div>
@@ -59,6 +59,7 @@ export default {
     error: '',
     text: 'Copy',
     message: 'Copied',
+    isCopied: false,
     cardJson: [{
       title: 'Brand Recognition',
       subtitle: 'Boost your brand recognition with each click. Generic links doesn\'t mean a thing. Branded links help instil confidence in your content.',
@@ -77,11 +78,6 @@ export default {
       text: 'fully'
     }]
   }),
-  computed: {
-    validated () {
-      return this.Validation && !this.url
-    }
-  },
   mounted () {
     if (localStorage.getItem('links')) {
       try {
@@ -102,11 +98,14 @@ export default {
     copy (hashid, $event) {
       event.preventDefault()
       copyTextToClipboard(this.$options.filters.relink(hashid))
-      // document.querySelector('add__copied').className = 'add__copied'
-      //   this.text = this.message.push('Copied')
-      console.log('message')
+      this.text = this.message
+      this.isCopied = !this.isCopied
     },
     handleShorten () {
+      if (this.url === '') {
+        // const field = this.url
+        this.error = 'Please add a link'
+      }
       Axios.post('https://rel.ink/api/links/', { url: this.url }).then(resp => {
         const links = this.links
         links.push(resp.data)
@@ -139,13 +138,17 @@ export default {
         font-family:'Poppins', sans-serif;
     }
     .add__copied {
-        background-color: hsl(257, 27%, 26%);
-        color: #fff;
+        background-color: hsl(257, 27%, 26%) !important;
+        color: #fff !important;
     }
     .error__div {
         position: relative;
         top: -45px;
         left: 100px;
+    }
+    .input__error  {
+        border: 1px solid hsl(0, 87%, 67%) !important;
+        /* color: hsl(0, 87%, 67%) !important; */
     }
     .error {
         font-family:'Poppins', sans-serif;
@@ -180,6 +183,12 @@ export default {
         color: hsl(0, 0%, 75%);
         font-family:'Poppins', sans-serif;
     }
+    input:focus {
+        outline: none !important;
+        border-color: inherit;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
     .search__field button {
         margin-left: 15px;
         background-color: hsl(180, 66%, 49%);
@@ -188,6 +197,12 @@ export default {
         font-size: 15px;
         border-radius: 10px;
         border: 0;
+    }
+    button:focus {
+        outline: 0 !important;
+        border-color: inherit;
+        -webkit-box-shadow: none;
+        box-shadow: none;
     }
     .copied__btn {
         background-color: hsl(257, 27%, 26%);
