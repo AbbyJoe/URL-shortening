@@ -12,6 +12,8 @@
                     </div>
                 </div>
                     <div v-for="(link, key) in links" :key="key">
+                            <div class="close" @click="removeLink(key)">X</div>
+
                         <div class="display__results">
                             <div class="real__link">
                                 <p>{{link.url}}</p>
@@ -95,11 +97,14 @@ export default {
     }
   },
   methods: {
+    removeLink (index) {
+      this.links.splice(index, 1)
+    },
     copy (hashid, $event) {
       event.preventDefault()
       copyTextToClipboard(this.$options.filters.relink(hashid))
       this.text = this.message
-      this.isCopied = !this.isCopied
+      this.isCopied = true
     },
     handleShorten () {
       if (this.url === '') {
@@ -137,6 +142,20 @@ export default {
     body {
         font-family:'Poppins', sans-serif;
     }
+    .close {
+        padding: 5px;
+        background-color: hsl(0, 87%, 67%);
+        font-family:'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 19px;
+        cursor: pointer;
+        opacity: 1;
+        text-shadow: none;
+        transition: all 1s;
+    }
+    /* .top__space:last-child {
+        margin-top: 3rem;
+    } */
     .add__copied {
         background-color: hsl(257, 27%, 26%) !important;
         color: #fff !important;
@@ -146,9 +165,11 @@ export default {
         top: -45px;
         left: 100px;
     }
-    .input__error  {
+    .input__error {
         border: 1px solid hsl(0, 87%, 67%) !important;
-        /* color: hsl(0, 87%, 67%) !important; */
+    }
+    .input__error::placeholder {
+        color: hsl(0, 87%, 67%) !important;
     }
     .error {
         font-family:'Poppins', sans-serif;
@@ -231,6 +252,7 @@ export default {
         border-radius: 5px;
         padding: 17px 30px;
         margin-top: -30px;
+        margin-bottom: 3rem;
     }
     .real__link p {
         color: hsl(257, 27%, 26%);
@@ -342,7 +364,7 @@ export default {
        }
        .search__field input {
         width: 100% !important;
-        height: 60px;
+        height: 55px;
         padding: 10px;
     }
     .search__field button {
@@ -354,7 +376,7 @@ export default {
     }
     .error__div {
         top: -68%;
-        left: 20px;
+        left: 5%;
     }
     .display__results {
         flex-direction: column;
@@ -373,7 +395,7 @@ export default {
         margin-top: 4rem;
     }
     .icon {
-        left: 35%;
+        left: 37%;
     }
 }
 </style>
