@@ -108,7 +108,6 @@ export default {
     },
     handleShorten () {
       if (this.url === '') {
-        // const field = this.url
         this.error = 'Please add a link'
       }
       Axios.post('https://rel.ink/api/links/', { url: this.url }).then(resp => {
@@ -153,9 +152,6 @@ export default {
         text-shadow: none;
         transition: all 1s;
     }
-    /* .top__space:last-child {
-        margin-top: 3rem;
-    } */
     .add__copied {
         background-color: hsl(257, 27%, 26%) !important;
         color: #fff !important;
@@ -334,11 +330,6 @@ export default {
        }
        .line {
            display: none;
-           /* position: relative;
-           height: 400px;
-           width: 10px;
-           bottom: 40%;
-           left: 50%; */
        }
        .real__link p {
            text-align: center;
